@@ -17,7 +17,7 @@ import { NgClass } from '@angular/common';
         class="font-bold text-xl tracking-tight transition-colors"
         [ngClass]="lightText ? 'text-white' : 'text-text-main'"
       >
-        EmpleosPro
+        EmpleosPro (Hola Lic. Johnny :D)
       </span>
     </div>
   `
