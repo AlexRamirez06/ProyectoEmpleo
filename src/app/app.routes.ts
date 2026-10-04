@@ -8,8 +8,11 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('./admin/layout.component').then(m => m.AdminLayoutComponent),
         children: [
-          { path: 'dashboard', loadComponent: () => import('./admin/dashboard.component').then(m => m.DashboardComponent) },
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+          { path: '', loadComponent: () => import('./admin/pages/construction.component').then(m => m.ConstructionComponent), data: { title: 'Panel' } },
+          { path: 'plazas', loadComponent: () => import('./admin/pages/construction.component').then(m => m.ConstructionComponent), data: { title: 'Plazas' } },
+          { path: 'candidatos', loadComponent: () => import('./admin/pages/construction.component').then(m => m.ConstructionComponent), data: { title: 'Candidatos por plaza' } },
+          { path: 'bolsa-de-talento', loadComponent: () => import('./admin/pages/construction.component').then(m => m.ConstructionComponent), data: { title: 'Bolsa de talento' } },
+          { path: 'empresa', loadComponent: () => import('./admin/pages/construction.component').then(m => m.ConstructionComponent), data: { title: 'Mi empresa' } },
         ]
       },
       {

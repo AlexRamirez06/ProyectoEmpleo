@@ -33,7 +33,7 @@ import { RouterLink } from '@angular/router';
             </h2>
             
             <p class="text-lg md:text-xl text-text-muted mb-8 opacity-0 motion-safe:animate-fade-in-up max-w-md" style="animation-delay: 0.3s">
-              Explora las plazas abiertas y aplica en minutos, sin crear cuenta.
+              Explora las plazas abiertas y aplica en minutos.
             </p>
             
             <div class="flex flex-col items-start gap-5 opacity-0 motion-safe:animate-fade-in-up" style="animation-delay: 0.4s">
@@ -106,4 +106,4 @@ import { RouterLink } from '@angular/router';
     </div>
   `
 })
-export class HomeComponent {}
+export class HomeComponent { }

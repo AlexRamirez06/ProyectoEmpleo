@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewChild, ElementRef, computed } from '@angular/core';
+import { Component, inject, signal, ViewChild, ElementRef, computed, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
@@ -304,7 +304,7 @@ import { AppValidators, ErrorMessages } from '../../core/validators';
     </div>
   `
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy, AfterViewInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
 
@@ -368,6 +368,8 @@ export class RegisterComponent {
   // Dynamic height
   formHeight = signal<number>(400);
 
+  private resizeObserver!: ResizeObserver;
+
   constructor() {
     this.registerForm.get('company.industry')?.valueChanges.subscribe(val => {
       const customCtrl = this.registerForm.get('company.customIndustry');
@@ -378,15 +380,28 @@ export class RegisterComponent {
         customCtrl?.setValue('');
       }
       customCtrl?.updateValueAndValidity();
-      setTimeout(() => this.updateHeight(), 50);
     });
   }
 
   ngAfterViewInit() {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.updateHeight();
+    });
+
+    if (this.step1Container) this.resizeObserver.observe(this.step1Container.nativeElement);
+    if (this.step2Container) this.resizeObserver.observe(this.step2Container.nativeElement);
+    if (this.step3Container) this.resizeObserver.observe(this.step3Container.nativeElement);
+
     setTimeout(() => {
       this.updateHeight();
       this.step1Title?.nativeElement.focus();
     }, 100);
+  }
+
+  ngOnDestroy() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 
   updateHeight() {
