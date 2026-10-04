@@ -1,3 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 
-@import 'tailwindcss';
+@theme {
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+
+  --color-surface: #ffffff;
+  --color-background: #f8fafc;
+  --color-text-main: #0f172a;
+  --color-text-muted: #475569;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-float: float 10s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text-main font-sans antialiased min-h-screen;
+  }
+  /* Permite que los contenedores internos ocupen el alto completo sin que los tags de Angular rompan el flexbox */
+  app-root, app-public-layout, app-admin-layout, app-home {
+    display: contents;
+  }
+}
