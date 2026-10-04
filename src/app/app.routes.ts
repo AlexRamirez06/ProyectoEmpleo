@@ -14,11 +14,12 @@ export const routes: Routes = [
     loadComponent: () => import('./public/layout.component').then(m => m.PublicLayoutComponent),
     children: [
       { path: '', loadComponent: () => import('./public/home/home.component').then(m => m.HomeComponent) },
+      { path: 'plazas/bolsa-de-talento', loadComponent: () => import('./public/jobs/talent-pool.component').then(m => m.TalentPoolComponent) },
       { path: 'plazas', loadComponent: () => import('./public/jobs/job-list.component').then(m => m.JobListComponent) }
     ]
   },
   {
     path: '**',
-    redirectTo: ''
+    loadComponent: () => import('./public/not-found.component').then(m => m.NotFoundComponent)
   }
 ];
