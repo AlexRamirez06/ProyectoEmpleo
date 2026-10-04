@@ -16,7 +16,7 @@ import { BrandComponent } from '../core/components/brand.component';
         <div class="w-full h-24 flex items-center px-6 sm:px-8 md:px-16">
           <a href="/" class="pointer-events-auto inline-block rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2" aria-label="Ir al inicio">
             <!-- El logo queda fijo a la izquierda, que siempre es clara (bg-primary-50), por lo que lightText=false asegura buen contraste en móvil y escritorio -->
-            <app-brand [lightText]="false" />
+            <app-brand class="vt-brand-logo inline-block" [lightText]="false" />
           </a>
         </div>
       </header>

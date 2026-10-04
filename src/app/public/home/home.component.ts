@@ -21,7 +21,7 @@ import { RouterLink } from '@angular/router';
         </div>
 
         <div class="relative z-10 w-full max-w-xl mx-auto md:ml-auto md:mr-8 lg:mr-16">
-          <a routerLink="/plazas" class="absolute inset-0 z-10 rounded-none focus:outline-none focus-visible:ring-inset focus-visible:ring-4 focus-visible:ring-primary-600" aria-label="Explorar plazas abiertas para candidatos"></a>
+          <a routerLink="/plazas" class="absolute inset-0 z-10" aria-hidden="true" tabindex="-1"></a>
           
           <div class="relative z-20 pointer-events-none">
             <div class="opacity-0 motion-safe:animate-fade-in-up" style="animation-delay: 0.1s">
@@ -39,12 +39,12 @@ import { RouterLink } from '@angular/router';
             <div class="flex flex-col items-start gap-5 opacity-0 motion-safe:animate-fade-in-up" style="animation-delay: 0.4s">
               <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <!-- Botón Principal -->
-                <span class="pointer-events-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all duration-200 ease-out shadow-sm group/btn cursor-pointer">
+                <a routerLink="/plazas" class="pointer-events-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all duration-200 ease-out shadow-sm group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600">
                   Ver plazas abiertas
                   <svg class="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-200 motion-reduce:transition-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
-                </span>
+                </a>
                 
                 <!-- Enlace Secundario -->
                 <a routerLink="/plazas/bolsa-de-talento" class="pointer-events-auto relative z-30 group/link inline-block py-2 text-sm font-semibold text-primary-700 hover:text-primary-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm cursor-pointer">
@@ -63,7 +63,7 @@ import { RouterLink } from '@angular/router';
       </div>
 
       <!-- Mitad Empresas -->
-      <div class="group/half flex-1 md:hover:flex-[1.1] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col justify-center px-6 sm:px-8 md:px-16 py-24 md:py-0 relative bg-text-main text-white focus-within:ring-4 focus-within:ring-primary-400 focus-within:z-10 overflow-hidden">
+      <div class="vt-panel-empresas group/half flex-1 md:hover:flex-[1.1] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col justify-center px-6 sm:px-8 md:px-16 py-24 md:py-0 relative bg-text-main text-white focus-within:ring-4 focus-within:ring-primary-400 focus-within:z-10 overflow-hidden">
         
         <!-- Decoración Fondo -->
         <div class="absolute inset-0 pointer-events-none opacity-30 md:group-hover/half:opacity-50 transition-opacity duration-700 motion-reduce:transition-none">
@@ -72,7 +72,7 @@ import { RouterLink } from '@angular/router';
         </div>
 
         <div class="relative z-10 w-full max-w-xl mx-auto md:mr-auto md:ml-8 lg:ml-16">
-          <a routerLink="/admin/login" class="absolute inset-0 z-10 rounded-none focus:outline-none focus-visible:ring-inset focus-visible:ring-4 focus-visible:ring-primary-400" aria-label="Ingresar al portal para empresas"></a>
+          <a routerLink="/admin/login" class="absolute inset-0 z-10" aria-hidden="true" tabindex="-1"></a>
           
           <div class="relative z-20 pointer-events-none">
             <div class="opacity-0 motion-safe:animate-fade-in-up" style="animation-delay: 0.2s">
@@ -88,12 +88,12 @@ import { RouterLink } from '@angular/router';
             </p>
             
             <div class="flex flex-col items-start gap-3 opacity-0 motion-safe:animate-fade-in-up" style="animation-delay: 0.5s">
-              <span class="pointer-events-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-text-main bg-white hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-sm transition-all duration-200 ease-out shadow-md group/btn cursor-pointer">
+              <a routerLink="/admin/login" class="pointer-events-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-text-main bg-white hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-sm transition-all duration-200 ease-out shadow-md group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white">
                 Ingresar como empresa
                 <svg class="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-200 motion-reduce:transition-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
-              </span>
+              </a>
               
               <p class="text-sm text-slate-400 mt-2 max-w-md opacity-0 motion-safe:animate-fade-in-up" style="animation-delay: 0.6s">
                 Acceso para el equipo de reclutamiento de tu empresa.
