@@ -45,6 +45,15 @@
   app-root, app-public-layout, app-admin-layout, app-home {
     display: contents;
   }
+  /* Fix para el relleno automático de Chrome/Webkit */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: var(--color-text-main) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }
 
 @layer utilities {
@@ -54,9 +63,47 @@
   .vt-brand-logo {
     view-transition-name: brand-logo;
   }
+  .vt-auth-form {
+    view-transition-name: auth-form;
+  }
   .animate-shake {
     animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }
+  .animate-slide-in-right {
+    animation: slide-in-right 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-slide-in-left {
+    animation: slide-in-left 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+::view-transition-old(auth-form) {
+  animation: fade-out 0.3s ease-out both;
+}
+::view-transition-new(auth-form) {
+  animation: fade-in 0.3s ease-out both;
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes draw-check {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slide-in-left {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes shake {
@@ -64,4 +111,11 @@
   20%, 80% { transform: translate3d(3px, 0, 0); }
   30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
   40%, 60% { transform: translate3d(5px, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-in-right, .animate-slide-in-left {
+    animation: fade-in 0.4s ease-out both !important;
+    transform: none !important;
+  }
 }
