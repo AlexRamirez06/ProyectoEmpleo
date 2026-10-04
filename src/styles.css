@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "./styles/buttons.css";
+@import "./styles/forms.css";
 
 @theme {
   --color-primary-50: #f0f9ff;
@@ -16,6 +18,8 @@
   --color-text-muted: #475569;
 
   --font-sans: 'Inter', system-ui, sans-serif;
+
+  --ring-focus: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-primary-500);
 
   --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-float: float 10s ease-in-out infinite;
@@ -44,15 +48,6 @@
   /* Permite que los contenedores internos ocupen el alto completo sin que los tags de Angular rompan el flexbox */
   app-root, app-public-layout, app-admin-layout, app-home {
     display: contents;
-  }
-  /* Fix para el relleno automático de Chrome/Webkit */
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover, 
-  input:-webkit-autofill:focus, 
-  input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-    -webkit-text-fill-color: var(--color-text-main) !important;
-    transition: background-color 5000s ease-in-out 0s;
   }
 }
 

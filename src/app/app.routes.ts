@@ -32,6 +32,14 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'dev/botones',
+    loadComponent: () => import('./dev/buttons-demo.component').then(m => m.ButtonsDemoComponent)
+  },
+  {
+    path: 'dev/formularios',
+    loadComponent: () => import('./dev/forms-demo.component').then(m => m.FormsDemoComponent)
+  },
+  {
     path: '**',
     loadComponent: () => import('./public/not-found.component').then(m => m.NotFoundComponent)
   }

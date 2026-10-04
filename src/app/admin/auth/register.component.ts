@@ -19,8 +19,9 @@ import { RouterLink } from '@angular/router';
 
       <!-- Separador y Enlace a Login -->
       <div class="mt-8 pt-8 border-t border-gray-200 text-center animate-slide-in-left" style="animation-delay: 0.4s">
-        <a routerLink="/admin/login" class="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm hover:underline">
+        <a routerLink="/admin/login" class="link-animated text-sm">
           ¿Ya tienes cuenta? Inicia sesión
+          <span class="link-animated__arrow">&rarr;</span>
         </a>
       </div>
 

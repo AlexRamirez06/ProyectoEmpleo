@@ -1,0 +1,472 @@
+/*
+ * Guía de uso - Campos de Formulario EmpleosPro
+ * 
+ * Estructura HTML recomendada:
+ * <div class="field" [class.is-invalid]="hasError" [class.is-valid]="isValidAndTouched">
+ *   <div class="field__header">
+ *     <label class="field__label" for="inputId">Correo electrónico <span class="field__optional">(opcional)</span></label>
+ *   </div>
+ *   <div class="field__control">
+ *     <svg class="field__icon-left">...</svg>
+ *     <input class="input" [class.has-icon-left]="true" id="inputId">
+ *     <!-- Acciones a la derecha o valid check se animan solas con is-valid -->
+ *     <svg class="field__valid-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ *   </div>
+ *   <p class="field__hint" id="hintId">Texto de ayuda</p>
+ *   <p class="field__error" id="errorId" role="alert">Mensaje de error</p>
+ * </div>
+ *
+ * Para sacudida al enviar con errores, aplica .form-submitted al <form>.
+ */
+
+@layer components {
+  :root {
+    --input-h: 48px;
+    --input-px: 1rem;
+    --input-radius: 0.5rem;
+    --input-border: #d1d5db; /* gray-300 */
+    --input-border-focus: var(--color-primary-500);
+    --input-border-error: #ef4444; /* red-500 */
+    --input-bg: #ffffff;
+    --input-bg-disabled: #f9fafb; /* gray-50 */
+    --input-text: 1rem; /* 16px min for iOS */
+    --input-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Contenedor principal */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+  }
+
+  .field__header {
+    display: flex;
+    justify-content: space-between;
+    align-items:baseline;
+  }
+
+  .field__label {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: var(--color-text-main);
+    transition: color var(--input-transition);
+  }
+
+  .field__optional {
+    font-size: 0.75rem; /* 12px */
+    color: var(--color-text-muted);
+    font-weight: 400;
+    margin-left: 0.25rem;
+  }
+
+  /* Contenedor del input y adornos */
+  .field__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Foco visible -> afecta a etiqueta e icono */
+  .field__control:focus-within ~ .field__header .field__label {
+    color: var(--color-primary-600);
+  }
+  .field__control:focus-within .field__icon-left {
+    color: var(--color-primary-600);
+  }
+
+  /* Campo nativo (input, select, textarea) */
+  .input, .select, .textarea {
+    width: 100%;
+    min-height: var(--input-h);
+    padding: 0.5rem var(--input-px);
+    font-size: var(--input-text);
+    line-height: 1.5;
+    color: var(--color-text-main);
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--input-radius);
+    outline: none;
+    transition: border-color var(--input-transition),
+                box-shadow var(--input-transition),
+                background-color var(--input-transition),
+                color var(--input-transition);
+    appearance: none;
+  }
+
+  /* Evitar saltos si es textarea */
+  .textarea {
+    min-height: calc(var(--input-h) * 2.5);
+    resize: vertical;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* Modificadores de padding interno por iconos */
+  .input.has-icon-left, .select.has-icon-left {
+    padding-left: 2.5rem;
+  }
+  .input.has-icon-right, .select.has-icon-right {
+    padding-right: 2.5rem;
+  }
+
+  /* Hover nativo */
+  .input:not(:disabled, [readonly]):hover,
+  .select:not(:disabled, [readonly]):hover,
+  .textarea:not(:disabled, [readonly]):hover {
+    border-color: #9ca3af; /* gray-400 */
+  }
+
+  /* Focus nativo */
+  .input:focus, .select:focus, .textarea:focus {
+    border-color: var(--input-border-focus);
+    box-shadow: var(--ring-focus);
+  }
+
+  /* Deshabilitado */
+  .input:disabled, .select:disabled, .textarea:disabled {
+    background-color: var(--input-bg-disabled);
+    color: #9ca3af; /* gray-400 */
+    border-color: #e5e7eb; /* gray-200 */
+    cursor: not-allowed;
+    opacity: 1; /* Override iOS opacity */
+  }
+
+  /* Solo lectura */
+  .input[readonly], .textarea[readonly] {
+    background-color: var(--input-bg);
+    border-color: transparent;
+    box-shadow: none !important;
+    padding-inline: 0;
+  }
+  .input[readonly]:focus, .textarea[readonly]:focus {
+    border-color: transparent;
+  }
+
+  /* Placeholders */
+  .input::placeholder, .textarea::placeholder {
+    color: #9ca3af; /* gray-400 */
+    opacity: 1;
+    transition: transform var(--input-transition), opacity var(--input-transition);
+  }
+  .input:focus::placeholder, .textarea:focus::placeholder {
+    transform: translateX(4px);
+    opacity: 0.5;
+  }
+
+  /* Icono izquierdo */
+  .field__icon-left {
+    position: absolute;
+    left: 0.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #9ca3af;
+    pointer-events: none;
+    transition: color var(--input-transition);
+    z-index: 2;
+  }
+
+  /* Icono derecho (como candado, botón limpiar o chevron) */
+  .field__icon-right {
+    position: absolute;
+    right: 0.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #9ca3af;
+    transition: color var(--input-transition), transform var(--input-transition);
+    z-index: 2;
+  }
+
+  /* Valid check mark (aparece en is-valid) */
+  .field__valid-check {
+    position: absolute;
+    right: 0.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #10b981; /* green-500 */
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity var(--input-transition), transform cubic-bezier(0.34, 1.56, 0.64, 1) 300ms;
+    z-index: 1;
+  }
+  .field.is-valid .field__valid-check {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Select nativo (chevron animado) */
+  .select {
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+  .select__chevron {
+    position: absolute;
+    right: 0.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-text-muted);
+    pointer-events: none;
+    transition: transform var(--input-transition);
+  }
+  .select:focus ~ .select__chevron {
+    transform: rotate(180deg);
+    color: var(--color-primary-600);
+  }
+
+  /* Textos de ayuda y error */
+  .field__hint {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+  }
+  .field__error {
+    font-size: 0.75rem;
+    color: var(--input-border-error);
+    margin-top: 0.25rem;
+    display: none; /* Se muestra con is-invalid */
+    align-items: center;
+    gap: 0.25rem;
+    animation: fade-slide-down var(--input-transition) forwards;
+  }
+
+  /* Estado Inválido */
+  .field.is-invalid .input,
+  .field.is-invalid .select,
+  .field.is-invalid .textarea {
+    border-color: var(--input-border-error);
+  }
+  .field.is-invalid .field__control:focus-within .input,
+  .field.is-invalid .field__control:focus-within .select,
+  .field.is-invalid .field__control:focus-within .textarea {
+    box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px rgba(239, 68, 68, 0.4);
+  }
+  .field.is-invalid .field__label,
+  .field.is-invalid .field__icon-left {
+    color: var(--input-border-error) !important;
+  }
+  .field.is-invalid .field__error {
+    display: flex;
+  }
+
+  /* Sacudida al enviar formulario (solo inputs inválidos) */
+  .form-submitted .field.is-invalid .field__control {
+    animation: shake-horizontal 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+
+  /* Autocomplete Autofill fix extraído de styles.css */
+  .input:-webkit-autofill,
+  .input:-webkit-autofill:hover, 
+  .input:-webkit-autofill:focus, 
+  .input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+    -webkit-text-fill-color: var(--color-text-main) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Checkbox y Radio nativos personalizados con aspecto del switch */
+  .check-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    min-height: 44px;
+    width: fit-content;
+  }
+  .check-radio__input {
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid var(--input-border);
+    background-color: var(--input-bg);
+    margin: 0;
+    display: grid;
+    place-content: center;
+    transition: all var(--input-transition);
+    cursor: inherit;
+  }
+  .check-radio__input:focus-visible {
+    outline: none;
+    box-shadow: var(--ring-focus);
+    border-color: var(--color-primary-500);
+  }
+  .check-radio__input:hover {
+    border-color: var(--color-primary-400);
+  }
+  /* Estilo Checkbox */
+  .check-radio__input[type="checkbox"] {
+    border-radius: 0.375rem; /* rounded-md */
+  }
+  .check-radio__input[type="checkbox"]::before {
+    content: "";
+    width: 0.75rem;
+    height: 0.75rem;
+    transform: scale(0);
+    transition: transform var(--input-transition) cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: inset 1em 1em white;
+    background-color: white;
+    transform-origin: center;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+  /* Estilo Radio */
+  .check-radio__input[type="radio"] {
+    border-radius: 50%;
+  }
+  .check-radio__input[type="radio"]::before {
+    content: "";
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform var(--input-transition) cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: inset 1em 1em white;
+  }
+  /* Checked State */
+  .check-radio__input:checked {
+    background-color: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+  }
+  .check-radio__input:checked::before {
+    transform: scale(1);
+  }
+  .check-radio__label {
+    font-size: 0.875rem;
+    color: var(--color-text-main);
+    user-select: none;
+  }
+
+  /* File Drop Zone */
+  .file-drop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border: 2px dashed var(--input-border);
+    border-radius: var(--input-radius);
+    background-color: var(--input-bg-disabled);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--input-transition);
+    overflow: hidden;
+  }
+  .file-drop:hover {
+    border-color: var(--color-primary-400);
+    background-color: var(--color-primary-50);
+  }
+  .file-drop:focus-within {
+    outline: none;
+    border-color: var(--input-border-focus);
+    box-shadow: var(--ring-focus);
+  }
+  .file-drop.is-dragover {
+    border-color: var(--color-primary-600);
+    background-color: var(--color-primary-50);
+  }
+  .file-drop.is-dragover .file-drop__icon {
+    transform: translateY(-4px) scale(1.1);
+    color: var(--color-primary-600);
+  }
+  .file-drop.is-invalid {
+    border-color: var(--input-border-error);
+    background-color: #fef2f2; /* red-50 */
+  }
+  .file-drop__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+    transition: transform var(--input-transition), color var(--input-transition);
+  }
+  .file-drop__text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    margin-bottom: 0.25rem;
+  }
+  .file-drop__subtext {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+  .file-drop__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* File Drop Selected State */
+  .file-drop-selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem var(--input-px);
+    border: 1px solid var(--input-border);
+    border-radius: var(--input-radius);
+    background-color: var(--input-bg);
+    animation: fade-slide-down var(--input-transition) forwards;
+  }
+  .file-drop-selected__info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    overflow: hidden;
+  }
+  .file-drop-selected__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--color-primary-600);
+    flex-shrink: 0;
+  }
+  .file-drop-selected__name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .file-drop-selected__size {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .field__label, .input, .select, .textarea, .field__icon-left, .field__icon-right,
+    .file-drop, .file-drop__icon, .check-radio__input, .check-radio__input::before {
+      transition: none !important;
+    }
+    .field__valid-check {
+      transition: none !important;
+    }
+    .input:focus::placeholder, .textarea:focus::placeholder {
+      transform: none !important;
+    }
+    .form-submitted .field.is-invalid .field__control {
+      animation: none !important;
+    }
+    .file-drop.is-dragover .file-drop__icon {
+      transform: none !important;
+    }
+    .field__error, .file-drop-selected {
+      animation: none !important;
+    }
+  }
+}
+
+@keyframes fade-slide-down {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake-horizontal {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(3px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+  40%, 60% { transform: translate3d(5px, 0, 0); }
+}

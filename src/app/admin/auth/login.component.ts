@@ -59,70 +59,74 @@ import { NgClass, NgStyle } from '@angular/common';
         </div>
       }
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6 animate-slide-in-right" style="animation-delay: 0.3s">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6 animate-slide-in-right" [class.form-submitted]="isSubmitted()" style="animation-delay: 0.3s">
         
         <!-- Correo -->
-        <div>
-          <label for="email" class="block text-sm font-medium text-text-main mb-1 transition-colors" [ngClass]="{'text-primary-600': isFocused('email')}">Correo electrónico</label>
-          <input 
-            #emailInput
-            id="email" 
-            type="email" 
-            formControlName="email" 
-            autocomplete="email"
-            (focus)="setFocus('email')"
-            (blur)="clearFocus('email')"
-            class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-text-main focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow transition-colors"
-            [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': showFieldError('email')}"
-            [attr.aria-invalid]="showFieldError('email') ? 'true' : null"
-            aria-describedby="email-error"
-          >
-          @if (showFieldError('email')) {
-            <p id="email-error" class="mt-2 text-sm text-red-600 animate-slide-in-right" style="animation-delay: 0s;" role="alert">
-              Escribe un correo válido, como nombre&#64;empresa.com
-            </p>
-          }
+        <div class="field" [class.is-invalid]="showFieldError('email')" [class.is-valid]="showFieldValid('email')">
+          <div class="field__header">
+            <label for="email" class="field__label">Correo electrónico</label>
+          </div>
+          <div class="field__control">
+            <svg class="field__icon-left" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <input 
+              #emailInput
+              id="email" 
+              type="email" 
+              formControlName="email" 
+              autocomplete="email"
+              class="input has-icon-left"
+              placeholder="nombre@empresa.com"
+              aria-describedby="email-error"
+            >
+            <svg class="field__valid-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p id="email-error" class="field__error" role="alert">
+            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Escribe un correo válido, como nombre&#64;empresa.com
+          </p>
         </div>
 
         <!-- Contraseña -->
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <label for="password" class="block text-sm font-medium text-text-main transition-colors" [ngClass]="{'text-primary-600': isFocused('password')}">Contraseña</label>
-            <button type="button" (click)="forgotPassword()" class="text-sm font-medium text-primary-600 hover:text-primary-700 focus:outline-none focus:underline focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm">
+        <div class="field" [class.is-invalid]="showFieldError('password')" [class.is-valid]="showFieldValid('password')">
+          <div class="field__header">
+            <label for="password" class="field__label">Contraseña</label>
+            <button type="button" (click)="forgotPassword()" class="text-sm font-medium text-primary-600 hover:text-primary-700 focus:outline-none focus:underline focus-visible:ring-[var(--ring-focus)] rounded-sm">
               ¿Olvidaste tu contraseña?
             </button>
           </div>
-          <div class="relative flex items-center">
-            <!-- Input real -->
+          <div class="field__control">
+            <svg class="field__icon-left" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
             <input 
               id="password" 
               [type]="showPassword() ? 'text' : 'password'" 
               formControlName="password" 
               autocomplete="current-password"
-              (focus)="setFocus('password')"
-              (blur)="clearFocus('password')"
-              [ngClass]="{'opacity-0': isAnimatingPassword(), 'border-red-500 focus:ring-red-500 focus:border-red-500': showFieldError('password')}"
-              class="w-full px-4 py-3 pr-14 rounded-lg border border-gray-300 bg-white text-text-main focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
-              [attr.aria-invalid]="showFieldError('password') ? 'true' : null"
+              [ngClass]="{'opacity-0': isAnimatingPassword()}"
+              class="input has-icon-left has-icon-right"
+              placeholder="Mínimo 6 caracteres"
               aria-describedby="password-error"
             >
             
             <!-- Capa temporal para efecto de descifrado -->
             @if (isAnimatingPassword()) {
-              <div class="absolute inset-y-0 left-0 right-14 flex items-center px-4 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+              <div class="absolute inset-y-0 left-10 right-14 flex items-center px-2 pointer-events-none overflow-hidden select-none" aria-hidden="true">
                 @for (item of animatingChars(); track $index) {
-                  <span class="inline-block animate-char-flip" [style.animation-delay.ms]="item.delay">
+                  <span class="inline-block animate-char-flip text-text-main" [style.animation-delay.ms]="item.delay">
                     {{ item.char }}
                   </span>
                 }
               </div>
             }
 
-            <!-- Botón Candado Animado -->
+            <!-- Botón Candado Animado (Icon right adaptado) -->
             <button 
               type="button"
               (click)="togglePassword()"
-              class="absolute right-2 w-11 h-11 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 hover:bg-gray-100 active:scale-95 group/lock"
+              class="absolute right-1 w-10 h-10 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-[var(--ring-focus)] transition-all duration-300 hover:bg-gray-100 active:scale-95 group/lock z-10"
               [ngClass]="showPassword() ? 'text-primary-600' : 'text-gray-400 hover:text-gray-600'"
               [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
               [attr.aria-pressed]="showPassword()"
@@ -159,12 +163,13 @@ import { NgClass, NgStyle } from '@angular/common';
                 <circle cx="12" cy="16" r="1" fill="currentColor" stroke="none" />
               </svg>
             </button>
+            
+            <svg class="field__valid-check !right-12" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          @if (showFieldError('password')) {
-            <p id="password-error" class="mt-2 text-sm text-red-600 animate-slide-in-right" style="animation-delay: 0s;" role="alert">
-              La contraseña debe tener al menos 6 caracteres.
-            </p>
-          }
+          <p id="password-error" class="field__error" role="alert">
+            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            La contraseña debe tener al menos 6 caracteres.
+          </p>
         </div>
 
         <!-- Mantener sesión (Switch animado) -->
@@ -211,22 +216,21 @@ import { NgClass, NgStyle } from '@angular/common';
         <!-- Submit -->
         <button 
           type="submit" 
-          [disabled]="isLoading()"
-          class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary-600 hover:bg-primary-700 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+          [disabled]="isLoading() || isSuccess()"
+          [attr.aria-busy]="isLoading() ? 'true' : null"
+          [ngClass]="{'is-loading': isLoading(), 'is-success': isSuccess()}"
+          class="btn btn-primary btn-block"
         >
           @if (isLoading()) {
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white motion-reduce:animate-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Ingresando...
-          } @else if (isSuccess()) {
-            <svg class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <span class="sr-only">Cargando...</span>
+          }
+          @if (isSuccess()) {
+            <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
-            ¡Listo!
+            <span>¡Listo!</span>
           } @else {
-            Iniciar sesión
+            <span>Iniciar sesión</span>
           }
         </button>
       </form>
@@ -244,12 +248,18 @@ import { NgClass, NgStyle } from '@angular/common';
 
       <!-- Links debajo -->
       <div class="mt-8 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 animate-slide-in-right" style="animation-delay: 0.6s">
-        <a routerLink="/" class="text-sm font-medium text-text-muted hover:text-text-main transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm px-2 py-2">
-          &larr; Volver al inicio
+        <a routerLink="/" class="btn btn-ghost btn-sm" data-motion="back">
+          <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Volver al inicio</span>
         </a>
         <span class="hidden md:inline text-gray-300 select-none">&middot;</span>
-        <a routerLink="/plazas" class="text-sm font-medium text-text-muted hover:text-primary-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm px-2 py-2">
-          ¿Buscas empleo? Ver plazas abiertas
+        <a routerLink="/plazas" class="btn btn-ghost btn-sm text-primary-600" data-motion="forward">
+          <span>¿Buscas empleo? Ver plazas</span>
+          <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
         </a>
       </div>
 
@@ -392,6 +402,13 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     return !!control && control.invalid && (control.dirty || control.touched);
   }
 
+  showFieldValid(field: string): boolean {
+    const control = this.loginForm.get(field);
+    return !!control && control.valid && (control.dirty || control.touched);
+  }
+
+  isSubmitted = signal(false);
+
   onSubmit() {
     this.loginForm.markAllAsTouched();
     this.showDemoError.set(false);
@@ -400,6 +417,8 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     this.hidePasswordSilently();
 
     if (this.loginForm.invalid) {
+      this.isSubmitted.set(false);
+      setTimeout(() => this.isSubmitted.set(true), 10);
       return;
     }
 

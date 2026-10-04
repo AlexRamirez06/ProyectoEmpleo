@@ -11,7 +11,12 @@ import { BrandComponent } from '../../core/components/brand.component';
       <app-brand class="mb-8" />
       <h1 class="text-3xl font-bold text-text-main mb-4">Bolsa de talento</h1>
       <p class="text-text-muted mb-8 text-center max-w-md">Pantalla en construcción. Pronto podrás registrar tu perfil aquí.</p>
-      <a routerLink="/" class="text-primary-600 hover:text-primary-700 font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md p-2">&larr; Volver al inicio</a>
+      <a routerLink="/" class="btn btn-ghost" data-motion="back">
+        <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span>Volver al inicio</span>
+      </a>
     </div>
   `
 })

@@ -39,17 +39,17 @@ import { RouterLink } from '@angular/router';
             <div class="flex flex-col items-start gap-5 opacity-0 motion-safe:animate-fade-in-up" style="animation-delay: 0.4s">
               <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <!-- Botón Principal -->
-                <a routerLink="/plazas" class="pointer-events-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all duration-200 ease-out shadow-sm group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600">
-                  Ver plazas abiertas
-                  <svg class="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-200 motion-reduce:transition-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <a routerLink="/plazas" class="btn btn-primary pointer-events-auto" data-motion="forward">
+                  <span>Ver plazas abiertas</span>
+                  <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </a>
                 
                 <!-- Enlace Secundario -->
-                <a routerLink="/plazas/bolsa-de-talento" class="pointer-events-auto relative z-30 group/link inline-block py-2 text-sm font-semibold text-primary-700 hover:text-primary-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm cursor-pointer">
+                <a routerLink="/plazas/bolsa-de-talento" class="link-animated pointer-events-auto z-30">
                   Unirme a la bolsa de talento
-                  <span class="absolute bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 ease-out group-hover/link:w-full focus-visible:w-full motion-reduce:transition-none"></span>
+                  <span class="link-animated__arrow">&rarr;</span>
                 </a>
               </div>
               
@@ -88,9 +88,9 @@ import { RouterLink } from '@angular/router';
             </p>
             
             <div class="flex flex-col items-start gap-3 opacity-0 motion-safe:animate-fade-in-up" style="animation-delay: 0.5s">
-              <a routerLink="/admin/login" class="pointer-events-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-text-main bg-white hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-sm transition-all duration-200 ease-out shadow-md group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white">
-                Ingresar como empresa
-                <svg class="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-200 motion-reduce:transition-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <a routerLink="/admin/login" class="btn btn-inverse pointer-events-auto" data-motion="forward">
+                <span>Ingresar como empresa</span>
+                <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </a>
