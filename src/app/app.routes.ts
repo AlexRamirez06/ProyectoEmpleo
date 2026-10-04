@@ -36,6 +36,14 @@ export const routes: Routes = [
     loadComponent: () => import('./dev/buttons-demo.component').then(m => m.ButtonsDemoComponent)
   },
   {
+    path: 'normas',
+    loadComponent: () => import('./public/legal-temp.component').then(m => m.LegalTempComponent)
+  },
+  {
+    path: 'privacidad',
+    loadComponent: () => import('./public/legal-temp.component').then(m => m.LegalTempComponent)
+  },
+  {
     path: 'dev/formularios',
     loadComponent: () => import('./dev/forms-demo.component').then(m => m.FormsDemoComponent)
   },

@@ -1,53 +1,19 @@
 import { Component, inject, signal, AfterViewInit, ElementRef, ViewChild, HostListener, OnDestroy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { BrandComponent } from '../../core/components/brand.component';
-import { NgClass, NgStyle } from '@angular/common';
+import { PasswordInputComponent } from '../../core/components/password-input.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, BrandComponent, NgClass, NgStyle],
+  imports: [ReactiveFormsModule, RouterLink, NgClass, PasswordInputComponent],
   template: `
-    <!-- Estilos específicos para las animaciones del candado y el descifrado -->
-    <style>
-      @keyframes char-flip {
-        0% { transform: translateY(4px) rotateX(90deg); opacity: 0; }
-        100% { transform: translateY(0) rotateX(0deg); opacity: 1; }
-      }
-      .animate-char-flip {
-        animation: char-flip 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-      }
-      @keyframes countdown {
-        from { stroke-dashoffset: 0; }
-        to { stroke-dashoffset: 100.53; }
-      }
-      .animate-countdown {
-        animation: countdown 10s linear forwards;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .animate-char-flip {
-          animation: none !important;
-          transform: none !important;
-          opacity: 1 !important;
-        }
-        .animate-countdown {
-          animation: none !important;
-          display: none !important;
-        }
-      }
-    </style>
-
     <div class="w-full max-w-md mx-auto relative">
       
       <div class="mb-8 animate-slide-in-right" style="animation-delay: 0.1s">
         <h2 class="text-2xl md:text-3xl font-bold text-text-main mb-2">Inicia sesión</h2>
         <p class="text-text-muted">Ingresa con la cuenta de tu empresa.</p>
-      </div>
-
-      <!-- Mensajes de estado invisibles para lectores de pantalla -->
-      <div aria-live="polite" class="sr-only">
-        {{ passwordLiveMessage() }}
       </div>
 
       @if (showDemoError()) {
@@ -97,73 +63,7 @@ import { NgClass, NgStyle } from '@angular/common';
             </button>
           </div>
           <div class="field__control">
-            <svg class="field__icon-left" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-            <input 
-              id="password" 
-              [type]="showPassword() ? 'text' : 'password'" 
-              formControlName="password" 
-              autocomplete="current-password"
-              [ngClass]="{'opacity-0': isAnimatingPassword()}"
-              class="input has-icon-left has-icon-right"
-              placeholder="Mínimo 6 caracteres"
-              aria-describedby="password-error"
-            >
-            
-            <!-- Capa temporal para efecto de descifrado -->
-            @if (isAnimatingPassword()) {
-              <div class="absolute inset-y-0 left-10 right-14 flex items-center px-2 pointer-events-none overflow-hidden select-none" aria-hidden="true">
-                @for (item of animatingChars(); track $index) {
-                  <span class="inline-block animate-char-flip text-text-main" [style.animation-delay.ms]="item.delay">
-                    {{ item.char }}
-                  </span>
-                }
-              </div>
-            }
-
-            <!-- Botón Candado Animado (Icon right adaptado) -->
-            <button 
-              type="button"
-              (click)="togglePassword()"
-              class="absolute right-1 w-10 h-10 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-[var(--ring-focus)] transition-all duration-300 hover:bg-gray-100 active:scale-95 group/lock z-10"
-              [ngClass]="showPassword() ? 'text-primary-600' : 'text-gray-400 hover:text-gray-600'"
-              [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-              [attr.aria-pressed]="showPassword()"
-              aria-controls="password"
-            >
-              <!-- Anillo de progreso para el auto-cierre -->
-              @if (showPassword()) {
-                <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 36 36" aria-hidden="true">
-                  <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-20" />
-                  <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="1.5" class="animate-countdown" stroke-dasharray="100.53" />
-                </svg>
-              }
-              
-              <!-- Candado -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 group-hover/lock:scale-110 motion-reduce:transition-none" aria-hidden="true">
-                <!-- Arco del candado -->
-                <path 
-                  d="M7 11V7a5 5 0 0110 0v4" 
-                  stroke-width="2" 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round" 
-                  class="transition-all duration-300 origin-[17px_11px] motion-reduce:transition-none"
-                  [ngClass]="showPassword() ? '-translate-y-1 rotate-[20deg] opacity-80' : ''"
-                />
-                <!-- Cuerpo del candado -->
-                <rect 
-                  x="5" y="11" width="14" height="10" rx="2" 
-                  stroke-width="2" 
-                  fill="currentColor" 
-                  [ngClass]="showPassword() ? 'fill-opacity-10 scale-105 transform-gpu' : 'fill-opacity-0'"
-                  class="transition-all duration-300 origin-center motion-reduce:transition-none"
-                />
-                <!-- Cerradura centro -->
-                <circle cx="12" cy="16" r="1" fill="currentColor" stroke="none" />
-              </svg>
-            </button>
-            
+            <app-password-input id="password" formControlName="password" inputId="password" autocomplete="current-password" ariaDescribedBy="password-error"></app-password-input>
             <svg class="field__valid-check !right-12" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <p id="password-error" class="field__error" role="alert">
@@ -266,7 +166,7 @@ import { NgClass, NgStyle } from '@angular/common';
     </div>
   `
 })
-export class LoginComponent implements AfterViewInit, OnDestroy {
+export class LoginComponent implements AfterViewInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
 
@@ -277,12 +177,10 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  showPassword = signal(false);
   isLoading = signal(false);
   isSuccess = signal(false);
   showDemoError = signal(false);
   forgotMessage = signal('');
-  passwordLiveMessage = signal('');
   
   focusedField = signal<string | null>(null);
   rememberMe = signal(false);
@@ -292,90 +190,10 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     this.rememberMe.set(input.checked);
   }
 
-  // Animación de descifrado
-  isAnimatingPassword = signal(false);
-  animatingChars = signal<{char: string, delay: number}[]>([]);
-  private autoHideTimer: any = null;
-
   ngAfterViewInit() {
     setTimeout(() => {
       this.emailInput?.nativeElement.focus();
     }, 600);
-  }
-
-  ngOnDestroy() {
-    this.clearAutoHideTimer();
-  }
-
-  @HostListener('document:visibilitychange')
-  onVisibilityChange() {
-    if (document.hidden) {
-      this.hidePasswordSilently();
-    }
-  }
-
-  togglePassword() {
-    const currentPwd = this.loginForm.get('password')?.value || '';
-    const willShow = !this.showPassword();
-
-    if (!currentPwd) {
-      // Sin texto, solo animamos el candado
-      this.updatePasswordState(willShow);
-      return;
-    }
-
-    // Preparar caracteres para la animación escalonada
-    const chars = currentPwd.split('').map((c, i) => {
-      // Máximo desfase de 300ms (primeros 12 caracteres), el resto entra de golpe para evitar esperas largas
-      const delay = Math.min(i * 25, 300);
-      return { char: willShow ? c : '•', delay };
-    });
-
-    this.animatingChars.set(chars);
-    this.isAnimatingPassword.set(true);
-    
-    // Cambiamos el estado (que cambia el icono e inicia timers)
-    this.updatePasswordState(willShow);
-
-    // Finalizar animación
-    setTimeout(() => {
-      this.isAnimatingPassword.set(false);
-      this.animatingChars.set([]);
-    }, 300 + 300); // delay máximo + duración de char-flip
-  }
-
-  private updatePasswordState(visible: boolean) {
-    this.showPassword.set(visible);
-    this.passwordLiveMessage.set(visible ? 'Contraseña visible' : 'Contraseña oculta');
-    
-    if (visible) {
-      this.startAutoHideTimer();
-    } else {
-      this.clearAutoHideTimer();
-    }
-  }
-
-  private hidePasswordSilently() {
-    if (this.showPassword()) {
-      this.updatePasswordState(false);
-      this.isAnimatingPassword.set(false);
-    }
-  }
-
-  private startAutoHideTimer() {
-    this.clearAutoHideTimer();
-    this.autoHideTimer = setTimeout(() => {
-      if (this.showPassword()) {
-        this.togglePassword(); // Ocultamos con animación si ocurre orgánicamente
-      }
-    }, 10000);
-  }
-
-  private clearAutoHideTimer() {
-    if (this.autoHideTimer) {
-      clearTimeout(this.autoHideTimer);
-      this.autoHideTimer = null;
-    }
   }
 
   forgotPassword() {
@@ -412,9 +230,6 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
   onSubmit() {
     this.loginForm.markAllAsTouched();
     this.showDemoError.set(false);
-
-    // Ocultar contraseña automáticamente por seguridad
-    this.hidePasswordSilently();
 
     if (this.loginForm.invalid) {
       this.isSubmitted.set(false);

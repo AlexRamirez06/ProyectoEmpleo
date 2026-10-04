@@ -37,3 +37,22 @@ export interface Application {
   status: 'Pendiente' | 'Revisada' | 'En entrevista' | 'Rechazada' | 'Contratado';
   appliedAt: string;
 }
+
+export interface CompanyRegistration {
+  account: {
+    email: string;
+  };
+  company: {
+    name: string;
+    industry: string;
+    customIndustry?: string;
+    description: string;
+    website?: string;
+  };
+  contact: {
+    name: string;
+    phone: string;
+    department: string;
+    address: string;
+  };
+}
